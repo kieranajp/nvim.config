@@ -1,5 +1,12 @@
+-- Disable netrw's directory listing so it never hijacks the window on launch.
+-- (mini.files is the explorer; nvim 0.10+ handles gx/open-url natively.)
+-- Must be set before netrw loads — this file is required during init.lua, which
+-- runs before runtime plugins are sourced, so we're early enough.
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
 -- Launching `nvim`, `nvim .` or `nvim <dir>` opens the file picker (find_files)
--- scoped to that folder, instead of netrw's directory listing / an empty buffer.
+-- scoped to that folder, instead of an empty buffer.
 vim.api.nvim_create_autocmd('VimEnter', {
   callback = function()
     if vim.fn.argc() > 1 then return end -- opened several files: leave them be
@@ -10,7 +17,7 @@ vim.api.nvim_create_autocmd('VimEnter', {
 
     if opened_dir then
       vim.cmd.cd(arg)
-      vim.cmd.enew() -- swap the netrw dir buffer for a blank one
+      vim.cmd.enew() -- drop the empty dir-named buffer
     end
     -- Defer so it runs after startup settles.
     vim.schedule(function() require('telescope.builtin').find_files() end)
