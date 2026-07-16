@@ -47,3 +47,16 @@ end
 
 set_heading_hl()
 vim.api.nvim_create_autocmd('ColorScheme', { callback = set_heading_hl })
+
+-- Prose readability: wrap at word boundaries, not mid-word. `linebreak` is
+-- ignored when `list` is on, so turn that off too; `breakindent` keeps wrapped
+-- lines visually aligned under the first.
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = { 'markdown', 'text', 'gitcommit' },
+  callback = function()
+    vim.opt_local.wrap = true
+    vim.opt_local.linebreak = true
+    vim.opt_local.list = false
+    vim.opt_local.breakindent = true
+  end,
+})
