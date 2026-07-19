@@ -26,6 +26,11 @@ require('render-markdown').setup {
     left_pad = 1,
     right_pad = 1,
   },
+  html = {
+    -- Keep <!-- ... --> visible always (they're Marp speaker notes), not
+    -- concealed until the cursor lands on them.
+    comment = { conceal = false },
+  },
 }
 
 -- Terminals can't scale font size, so fake the heading hierarchy with colour +
