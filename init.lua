@@ -715,6 +715,9 @@ do
   --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
   --  See `:help lsp-config` for information about keys and how to configure
   ---@type table<string, vim.lsp.Config>
+  -- nvim doesn't know .astro natively; register it so the astro LSP attaches.
+  vim.filetype.add { extension = { astro = 'astro' } }
+
   local servers = {
     -- clangd = {},
     gopls = {},
@@ -727,6 +730,7 @@ do
     -- But for many setups, the LSP (`ts_ls`) will work just fine
     ts_ls = {}, -- JavaScript / TypeScript
     intelephense = {}, -- PHP
+    astro = {}, -- Astro (needs the .astro filetype registered below)
 
     stylua = {}, -- Used to format Lua code
 
@@ -929,7 +933,7 @@ do
   vim.pack.add { { src = gh 'nvim-treesitter/nvim-treesitter', version = 'main' } }
 
   -- Ensure basic parsers are installed
-  local parsers = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc', 'javascript', 'typescript', 'tsx', 'go', 'gomod', 'php' }
+  local parsers = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc', 'javascript', 'typescript', 'tsx', 'go', 'gomod', 'php', 'astro' }
   require('nvim-treesitter').install(parsers)
 
   ---@param buf integer
